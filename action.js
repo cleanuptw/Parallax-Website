@@ -11,11 +11,28 @@ const fish2 = document.getElementById('fish2');
 const fish3 = document.getElementById('fish3');
 const fish4 = document.getElementById('fish4');
 
+function getNumericStyleValue(element, property, fallback = 0) {
+    const value = parseFloat(getComputedStyle(element)[property]);
+    return Number.isNaN(value) ? fallback : value;
+}
+
 const baseFishPositions = {
-    fish1: parseFloat(getComputedStyle(fish1).top),
-    fish2: parseFloat(getComputedStyle(fish2).top),
-    fish3: parseFloat(getComputedStyle(fish3).top),
-    fish4: parseFloat(getComputedStyle(fish4).top)
+    fish1: {
+        top: getNumericStyleValue(fish1, 'top'),
+        left: getNumericStyleValue(fish1, 'left')
+    },
+    fish2: {
+        top: getNumericStyleValue(fish2, 'top'),
+        left: getNumericStyleValue(fish2, 'left')
+    },
+    fish3: {
+        top: getNumericStyleValue(fish3, 'top'),
+        left: getNumericStyleValue(fish3, 'left')
+    },
+    fish4: {
+        top: getNumericStyleValue(fish4, 'top'),
+        left: getNumericStyleValue(fish4, 'left')
+    }
 };
 
 if (screen.width < 400) {
@@ -61,11 +78,23 @@ window.addEventListener('scroll', function () {
         splash.style.top = 20 + value * -0.3 + 'px';
     }
 
-    // Move fishes vertically from bottom to top
-    fish1.style.top = baseFishPositions.fish1 - Math.max(0, value - 100) + 'px';
-    fish2.style.top = baseFishPositions.fish2 - Math.max(0, value - fish2move) + 'px';
-    fish3.style.top = baseFishPositions.fish3 - Math.max(0, value - fish3move) + 'px';
-    fish4.style.top = baseFishPositions.fish4 - Math.max(0, value - fish4move) + 'px';
+    // Move fishes diagonally from top-left to bottom-right
+    const fish1Shift = Math.max(0, value - 100);
+    const fish2Shift = Math.max(0, value - fish2move);
+    const fish3Shift = Math.max(0, value - fish3move);
+    const fish4Shift = Math.max(0, value - fish4move);
+
+    fish1.style.top = baseFishPositions.fish1.top + fish1Shift + 'px';
+    fish1.style.left = baseFishPositions.fish1.left + fish1Shift + 'px';
+
+    fish2.style.top = baseFishPositions.fish2.top + fish2Shift + 'px';
+    fish2.style.left = baseFishPositions.fish2.left + fish2Shift + 'px';
+
+    fish3.style.top = baseFishPositions.fish3.top + fish3Shift + 'px';
+    fish3.style.left = baseFishPositions.fish3.left + fish3Shift + 'px';
+
+    fish4.style.top = baseFishPositions.fish4.top + fish4Shift + 'px';
+    fish4.style.left = baseFishPositions.fish4.left + fish4Shift + 'px';
 })
 
 
