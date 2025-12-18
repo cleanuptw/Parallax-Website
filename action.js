@@ -6,6 +6,18 @@ var fish2move = 100;
 var fish3move = 900;
 var fish4move = 1200;
 
+const fish1 = document.getElementById('fish1');
+const fish2 = document.getElementById('fish2');
+const fish3 = document.getElementById('fish3');
+const fish4 = document.getElementById('fish4');
+
+const baseFishPositions = {
+    fish1: parseFloat(getComputedStyle(fish1).top),
+    fish2: parseFloat(getComputedStyle(fish2).top),
+    fish3: parseFloat(getComputedStyle(fish3).top),
+    fish4: parseFloat(getComputedStyle(fish4).top)
+};
+
 if (screen.width < 400) {
 
     //Change transformation duration and translatey for mobile view
@@ -49,11 +61,11 @@ window.addEventListener('scroll', function () {
         splash.style.top = 20 + value * -0.3 + 'px';
     }
 
-    //Move fishes horizontally
-    fish1.style.right = (value - 100) * 1 + 'px';
-    fish2.style.left = (value - fish2move) * 1 + 'px';
-    fish3.style.right = (value - fish3move) * 1 + 'px';
-    fish4.style.left = (value - fish4move) * 1 + 'px';
+    // Move fishes vertically from bottom to top
+    fish1.style.top = baseFishPositions.fish1 - Math.max(0, value - 100) + 'px';
+    fish2.style.top = baseFishPositions.fish2 - Math.max(0, value - fish2move) + 'px';
+    fish3.style.top = baseFishPositions.fish3 - Math.max(0, value - fish3move) + 'px';
+    fish4.style.top = baseFishPositions.fish4 - Math.max(0, value - fish4move) + 'px';
 })
 
 
